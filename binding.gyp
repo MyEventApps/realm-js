@@ -29,6 +29,8 @@
         "src/js_sync.hpp",
         "src/js_types.hpp",
         "src/js_util.hpp",
+        "src/node/js_adapter.hpp",
+        "src/node/js_global_notifier.hpp",
         "src/node/node_class.hpp",
         "src/node/node_context.hpp",
         "src/node/node_exception.hpp",
@@ -45,7 +47,8 @@
         "src/rpc.hpp",
       ],
       "include_dirs": [
-        "src"
+        "src",
+        "src/object-store/external/json",
       ],
       "conditions": [
         ["runtime=='electron'", {
