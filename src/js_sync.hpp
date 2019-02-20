@@ -42,6 +42,10 @@
 extern jclass ssl_helper_class;
 #endif
 
+#if REALM_PLATFORM_NODE
+#include "node/sync_logger.hpp"
+#endif
+
 namespace realm {
 namespace js {
 
@@ -109,11 +113,9 @@ public:
         {"_getExistingUser", wrap<get_existing_user>},
     };
 
-    /*static void current_user(ContextType ctx, ObjectType object, ReturnValue &return_value);*/
     static void all_users(ContextType ctx, ObjectType object, ReturnValue &);
 
     PropertyMap<T> const static_properties = {
-        /*{"current", {wrap<current_user>, nullptr}},*/
         {"all", {wrap<all_users>, nullptr}},
     };
 
@@ -918,6 +920,7 @@ public:
 
     static void initialize_sync_manager(ContextType, ObjectType, Arguments &, ReturnValue &);
     static void set_sync_log_level(ContextType, ObjectType, Arguments &, ReturnValue &);
+    static void set_sync_logger(ContextType, ObjectType, Arguments &, ReturnValue &);
     static void set_sync_user_agent(ContextType, ObjectType, Arguments &, ReturnValue &);
     static void initiate_client_reset(ContextType, ObjectType, Arguments &, ReturnValue &);
     static void reconnect(ContextType, ObjectType, Arguments &, ReturnValue &);
@@ -931,10 +934,14 @@ public:
     static void get_is_developer_edition(ContextType, ObjectType, ReturnValue &);
 
     MethodMap<T> const static_methods = {
-        {"setLogLevel", wrap<set_sync_log_level>},
-        {"setUserAgent", wrap<set_sync_user_agent>},
         {"initiateClientReset", wrap<initiate_client_reset>},
         {"reconnect", wrap<reconnect>},
+        {"setLogLevel", wrap<set_sync_log_level>},
+#if REALM_PLATFORM_NODE
+        {"setLogger", wrap<set_sync_logger>},
+        {"setSyncLogger", wrap<set_sync_logger>},
+#endif
+        {"setUserAgent", wrap<set_sync_user_agent>},
         {"_initializeSyncManager", wrap<initialize_sync_manager>},
     };
 };
@@ -980,6 +987,15 @@ void SyncClass<T>::set_sync_log_level(ContextType ctx, ObjectType this_object, A
         throw std::runtime_error("Bad log level");
     syncManagerShared<T>(ctx).set_log_level(log_level_2);
 }
+
+#if REALM_PLATFORM_NODE
+template<typename T>
+void SyncClass<T>::set_sync_logger(ContextType ctx, ObjectType this_object, Arguments &args, ReturnValue &return_value) {
+    args.validate_count(1);
+    auto callback_fn = Value::validated_to_function(ctx, args[0], "logger_callback");
+    syncManagerShared<T>(ctx).set_logger_factory(*new realm::node::SyncLoggerFactory(ctx, callback_fn));
+}
+#endif
 
 template<typename T>
 void SyncClass<T>::set_sync_user_agent(ContextType ctx, ObjectType this_object, Arguments &args, ReturnValue &return_value) {

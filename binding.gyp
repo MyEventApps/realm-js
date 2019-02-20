@@ -13,6 +13,7 @@
         "src/js_realm.cpp",
         "src/node/node_init.cpp",
         "src/node/platform.cpp",
+        "src/node/sync_logger.cpp",
 
         "src/concurrent_deque.hpp",
         "src/event_loop_dispatcher.hpp",
@@ -39,6 +40,7 @@
         "src/node/node_string.hpp",
         "src/node/node_types.hpp",
         "src/node/node_value.hpp",
+        "src/node/sync_logger.hpp",
         "src/platform.hpp",
         "src/rpc.hpp",
       ],
