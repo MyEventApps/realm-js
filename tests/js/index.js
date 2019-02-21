@@ -57,9 +57,12 @@ if (global.enableSyncTests) {
     TESTS.UserTests = require('./user-tests');
     TESTS.SessionTests = require('./session-tests');
 
-    // FIXME: Permission tests currently fail in react native
     if (isNodeProcess) {
+        // FIXME: Permission tests currently fail in react native
         TESTS.PermissionTests = require('./permission-tests');
+
+        require('./adapter-tests');
+        require('./notifier-tests');
     }
 }
 

@@ -364,6 +364,12 @@ case "$TARGET" in
   popd
   stop_server
   ;;
+"node-server")
+  npm run check-environment
+  npm install --no-save --build-from-source=realm --realm_enable_sync
+  ./scripts/install-js-sync-server.sh
+  ./node_modules/.bin/jasmine --config=tests/server/support/jasmine.json
+  ;;
 "electron")
   npm install --no-save
   if [ "$(uname)" = 'Darwin' ]; then
