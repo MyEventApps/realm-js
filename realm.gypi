@@ -1,20 +1,12 @@
 {
   "variables": {
+    "realm_enable_sync%": "1",
     "realm_download_binaries%": "1",
     "use_realm_debug%": "<!(node -p \"'REALMJS_USE_DEBUG_CORE' in process.env ? 1 : 0\")",
     "realm_js_dir%": "<(module_root_dir)",
     "runtime%": "node"
   },
   "conditions": [
-    ["OS=='mac'", {
-      "variables": {
-        "realm_enable_sync%": "1"
-      }
-    }, {
-      "variables": {
-        "realm_enable_sync%": "0"
-      }
-    }],
     ["use_realm_debug", {
       "variables": {
         "debug_library_suffix": "-dbg",
