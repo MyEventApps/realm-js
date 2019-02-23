@@ -59,11 +59,8 @@
         "src/object-store/external/json",
       ],
       "conditions": [
-        ["runtime=='electron'", {
-          "dependencies": [ "OpenSSL" ]
-        }],
-        ["OS=='win'", {
-          "dependencies": [ "OpenSSL" ]
+        [ "OS!='mac'", {
+          "dependencies": [ "OpenSSL" ],
         }],
       ]
     },
