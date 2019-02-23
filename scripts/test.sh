@@ -254,7 +254,7 @@ case "$TARGET" in
   ;;
 "eslint-ci")
   [[ $CONFIGURATION == 'Debug' ]] && exit 0
-  npm install
+  npm ci
   ./node_modules/.bin/eslint -f checkstyle . > eslint.xml || true
   ;;
 "license-check")
@@ -271,7 +271,7 @@ case "$TARGET" in
   download_server
   start_server
   pushd tests/react-test-app
-  npm install --no-save
+  npm ci
   ./node_modules/.bin/install-local
   open_chrome
   start_packager
@@ -286,7 +286,7 @@ case "$TARGET" in
   set_nvm_default
   pushd examples/ReactExample
 
-  npm install --no-save
+  npm ci
   ./node_modules/.bin/install-local
   open_chrome
   start_packager
@@ -309,7 +309,7 @@ case "$TARGET" in
   popd
 
   pushd tests/react-test-app
-  npm install --no-save
+  npm ci
   ./node_modules/.bin/install-local
 
   echo "Resetting logcat"
@@ -344,7 +344,7 @@ case "$TARGET" in
   ;;
 "node")
   npm run check-environment
-  npm install --no-save --build-from-source=realm --realm_enable_sync
+  npm ci --build-from-source=realm --realm_enable_sync
   download_server
   start_server
 
@@ -353,7 +353,7 @@ case "$TARGET" in
   test_temp_dir=$PWD # set it to be cleaned at exit
 
   pushd "$SRCROOT/tests"
-  npm install
+  npm ci
   npm run test
   popd
   stop_server
@@ -365,7 +365,7 @@ case "$TARGET" in
   ./node_modules/.bin/jasmine --config=tests/server/support/jasmine.json
   ;;
 "electron")
-  npm install --no-save
+  npm ci
   download_server
   start_server
 
@@ -374,7 +374,7 @@ case "$TARGET" in
   export npm_config_target=4.0.3
   export npm_config_runtime=electron
   export npm_config_disturl=https://atom.io/download/electron
-  npm install --no-save --realm_enable_sync
+  npm ci --realm_enable_sync
   ./node_modules/.bin/install-local
 
   npm test -- --process=main
@@ -394,7 +394,7 @@ case "$TARGET" in
   ;;
 "test-runners")
   npm run check-environment
-  npm install --no-save
+  npm ci
   npm run test-runners
   ;;
 "all")
